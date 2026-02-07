@@ -51,26 +51,37 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #0a0a0f;
+            overflow-x: hidden; /* Mencegah scroll horizontal yang tidak diinginkan */
         }
         
         .gradient-bg {
             background: linear-gradient(135deg, #1a0b2e 0%, #16001e 30%, #0a0a0f 60%, #1a0a00 100%);
         }
         
+        /* Yellow/Orange Gradient (Astropoix & Dreams to Life) */
         .gradient-text {
             background: linear-gradient(135deg, #FFD700 0%, #FF8C42 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        
-        .glass-effect {
-            background: rgba(20, 20, 30, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(139, 92, 246, 0.2);
+
+        /* Purple Gradient (Commission & Bring Your Website) */
+        .gradient-text-purple {
+            background: linear-gradient(135deg, #c084fc 0%, #7c3aed 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
-        /* Custom Hover Effect for Stats Cards */
+        /* FIXED: Opacity Increased (Lebih Tebal) */
+        .glass-effect {
+            background: rgba(5, 5, 10, 0.9); /* Lebih gelap & tebal (90% opacity) */
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+        
         .stats-card {
             transition: all 0.3s ease;
             border: 1px solid rgba(139, 92, 246, 0.2);
@@ -78,7 +89,7 @@
         
         .stats-card:hover {
             border-color: #8B5CF6;
-            box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+            box-shadow: 0 0 25px rgba(139, 92, 246, 0.5); /* Glow ungu lebih kuat */
             transform: translateY(-5px);
         }
 
@@ -133,18 +144,19 @@
         /* Hamburger Menu Animation */
         .hamburger {
             cursor: pointer;
-            width: 24px;
-            height: 24px;
+            width: 30px;
+            height: 30px;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
+            z-index: 60; /* Harus lebih tinggi dari navbar */
         }
         
         .hamburger span {
             display: block;
             position: absolute;
-            height: 2px;
+            height: 3px;
             width: 100%;
             background: white;
             border-radius: 2px;
@@ -154,48 +166,42 @@
             transition: .25s ease-in-out;
         }
         
-        .hamburger span:nth-child(1) {
-            top: 4px;
-        }
-        
+        .hamburger span:nth-child(1) { top: 0px; }
         .hamburger span:nth-child(2),
-        .hamburger span:nth-child(3) {
-            top: 11px;
-        }
-        
-        .hamburger span:nth-child(4) {
-            top: 18px;
-        }
+        .hamburger span:nth-child(3) { top: 10px; }
+        .hamburger span:nth-child(4) { top: 20px; }
         
         .hamburger.active span:nth-child(1) {
-            top: 11px;
+            top: 10px;
             width: 0%;
             left: 50%;
         }
         
-        .hamburger.active span:nth-child(2) {
-            transform: rotate(45deg);
-        }
-        
-        .hamburger.active span:nth-child(3) {
-            transform: rotate(-45deg);
-        }
-        
+        .hamburger.active span:nth-child(2) { transform: rotate(45deg); }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg); }
         .hamburger.active span:nth-child(4) {
-            top: 11px;
+            top: 10px;
             width: 0%;
             left: 50%;
+        }
+
+        /* Mobile Menu Transitions */
+        .mobile-menu-overlay {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100vw; /* Pastikan full width */
+            height: 100vh; /* Pastikan full height */
         }
     </style>
 </head>
 <body class="bg-night-dark text-white">
     
     <!-- Navbar -->
-    <nav class="fixed w-full top-0 z-50 glass-effect">
+    <!-- FIXED: Added left-0 to fix cut-off issue -->
+    <nav class="fixed w-full top-0 left-0 z-50 glass-effect">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <!-- Logo -->
-                <div class="flex items-center space-x-2 animate-fade-in-down">
+                <div class="flex items-center space-x-2 animate-fade-in-down z-50 relative">
                     <div class="relative">
                         <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-astro-yellow to-astro-orange flex items-center justify-center font-bold text-2xl text-white shadow-lg">
                             A
@@ -203,14 +209,14 @@
                         <div class="absolute -top-1 -right-1 w-4 h-4 bg-astro-purple rounded-full animate-pulse"></div>
                     </div>
                     <div>
-                        <!-- UPDATED: Changed gradient-text to text-astro-purple -->
+                        <!-- Astropoix (Yellow) -->
                         <h1 class="text-xl font-bold gradient-text">Astropoix</h1>
-                        <p class="text-xs text-astro-purple">Commission</p>
+                        <!-- Commission (Purple Gradient) -->
+                        <p class="text-xs font-semibold gradient-text-purple tracking-wide">COMMISSION</p>
                     </div>
                 </div>
                 
-                <!-- Navigation -->
-                <!-- UPDATED: Changed md:flex to lg:flex to prevent overlap on tablets -->
+                <!-- Desktop Navigation -->
                 <div class="hidden lg:flex items-center space-x-8">
                     <a href="#hero" class="text-gray-300 hover:text-astro-orange transition-colors duration-300">Home</a>
                     <a href="#about" class="text-gray-300 hover:text-astro-orange transition-colors duration-300">About</a>
@@ -220,8 +226,7 @@
                     <a href="#contact" class="text-gray-300 hover:text-astro-orange transition-colors duration-300">Contact</a>
                 </div>
                 
-                <!-- Purchase Button -->
-                <!-- UPDATED: Changed md:block to lg:block -->
+                <!-- Desktop Purchase Button -->
                 <div class="hidden lg:block animate-fade-in-down">
                     <a href="#pricing" class="glow-button px-6 py-3 bg-gradient-to-r from-astro-orange to-astro-yellow text-white font-semibold rounded-full hover:shadow-xl hover:scale-105 transition-all duration-300">
                         Purchase Now
@@ -229,8 +234,7 @@
                 </div>
                 
                 <!-- Mobile Menu Button -->
-                <!-- UPDATED: Changed md:hidden to lg:hidden -->
-                <button class="lg:hidden hamburger" id="mobile-menu-button">
+                <button class="lg:hidden hamburger" id="mobile-menu-button" aria-label="Toggle Menu">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -239,17 +243,23 @@
             </div>
         </div>
         
-        <!-- Mobile Menu -->
-        <!-- UPDATED: Changed md:hidden to lg:hidden -->
-        <div class="lg:hidden hidden" id="mobile-menu">
-            <div class="px-2 pt-2 pb-3 space-y-1 bg-night-darker bg-opacity-98 border-t border-astro-purple border-opacity-20">
-                <a href="#hero" class="block px-3 py-2 text-gray-300 hover:text-astro-orange transition-colors">Home</a>
-                <a href="#about" class="block px-3 py-2 text-gray-300 hover:text-astro-orange transition-colors">About</a>
-                <a href="#portfolio" class="block px-3 py-2 text-gray-300 hover:text-astro-orange transition-colors">Portfolio</a>
-                <a href="#pricing" class="block px-3 py-2 text-gray-300 hover:text-astro-orange transition-colors">Pricing</a>
-                <a href="#faq" class="block px-3 py-2 text-gray-300 hover:text-astro-orange transition-colors">FAQ</a>
-                <a href="#contact" class="block px-3 py-2 text-gray-300 hover:text-astro-orange transition-colors">Contact</a>
-                <a href="#pricing" class="block mx-3 my-2 px-6 py-3 bg-gradient-to-r from-astro-orange to-astro-yellow text-white font-semibold rounded-full text-center">
+        <!-- Mobile Menu Full Screen Overlay -->
+        <div class="lg:hidden fixed inset-0 z-40 bg-night-dark mobile-menu-overlay translate-x-full" id="mobile-menu">
+            <!-- Background Decoration inside Menu -->
+            <div class="absolute inset-0 overflow-hidden pointer-events-none">
+                <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-astro-purple rounded-full mix-blend-screen filter blur-[100px] opacity-20"></div>
+                <div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-astro-orange rounded-full mix-blend-screen filter blur-[100px] opacity-20"></div>
+            </div>
+
+            <div class="flex flex-col items-center justify-center h-full space-y-8 relative z-10">
+                <a href="#hero" class="text-2xl font-bold text-white hover:gradient-text transition-all duration-300 mobile-link">Home</a>
+                <a href="#about" class="text-2xl font-bold text-gray-300 hover:gradient-text transition-all duration-300 mobile-link">About</a>
+                <a href="#portfolio" class="text-2xl font-bold text-gray-300 hover:gradient-text transition-all duration-300 mobile-link">Portfolio</a>
+                <a href="#pricing" class="text-2xl font-bold text-gray-300 hover:gradient-text transition-all duration-300 mobile-link">Pricing</a>
+                <a href="#faq" class="text-2xl font-bold text-gray-300 hover:gradient-text transition-all duration-300 mobile-link">FAQ</a>
+                <a href="#contact" class="text-2xl font-bold text-gray-300 hover:gradient-text transition-all duration-300 mobile-link">Contact</a>
+                
+                <a href="#pricing" class="mt-8 px-8 py-4 bg-gradient-to-r from-astro-orange to-astro-yellow text-white font-bold rounded-full text-xl shadow-lg shadow-astro-orange/30 mobile-link hover:scale-105 transition-transform">
                     Purchase Now
                 </a>
             </div>
@@ -257,36 +267,28 @@
     </nav>
 
     <!-- Hero Section -->
-    <!-- UPDATED: Added pb-32 for bottom spacing -->
     <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 pb-32">
-        <!-- Animated Background -->
         <div class="absolute inset-0 gradient-bg opacity-90"></div>
-        
-        <!-- Stars Animation -->
         <div class="absolute inset-0" id="stars-container"></div>
         
-        <!-- Floating Shapes -->
         <div class="absolute top-20 left-10 w-72 h-72 bg-astro-purple rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float"></div>
         <div class="absolute bottom-20 right-10 w-72 h-72 bg-astro-orange rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float" style="animation-delay: 2s;"></div>
         <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-astro-yellow rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-float" style="animation-delay: 4s;"></div>
         
-        <!-- Content -->
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div class="animate-fade-in-up">
-                <!-- Badge -->
                 <div class="inline-flex items-center space-x-2 px-4 py-2 glass-effect rounded-full mb-6">
                     <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
                     <span class="text-sm text-gray-300">🚀 Ready to Build Your Dream Website</span>
                 </div>
                 
-                <!-- Main Heading -->
                 <h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight">
-                    <!-- UPDATED: Changed text-white to text-astro-purple -->
-                    <span class="block text-astro-purple">Bring Your Website</span>
+                    <!-- Updated: Purple Gradient -->
+                    <span class="block gradient-text-purple pb-2">Bring Your Website</span>
+                    <!-- Updated: Yellow Gradient -->
                     <span class="block gradient-text">Dreams to Life</span>
                 </h1>
                 
-                <!-- Subheading -->
                 <p class="text-xl md:text-2xl text-gray-300 mb-4 max-w-3xl mx-auto">
                     Professional website development services at affordable prices
                 </p>
@@ -294,7 +296,6 @@
                     Perfect for business owners, students, and anyone who needs a fast & simple website
                 </p>
                 
-                <!-- CTA Buttons -->
                 <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 mb-12">
                     <a href="#pricing" class="glow-button w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-astro-orange to-astro-yellow text-white font-bold rounded-full text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300">
                         🎯 View Packages & Pricing
@@ -304,7 +305,6 @@
                     </a>
                 </div>
                 
-                <!-- Discount Badge -->
                 <div class="inline-flex items-center space-x-3 px-6 py-3 bg-red-500 bg-opacity-90 rounded-full animate-pulse-glow">
                     <svg class="w-6 h-6 text-yellow-300" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
@@ -316,8 +316,6 @@
                 </div>
             </div>
             
-            <!-- Stats -->
-            <!-- UPDATED: Added stats-card class and specific hover effects -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20 animate-fade-in-up" style="animation-delay: 0.3s;">
                 <div class="glass-effect rounded-2xl p-6 stats-card cursor-pointer">
                     <div class="text-4xl font-bold gradient-text mb-2">7-14</div>
@@ -334,7 +332,6 @@
             </div>
         </div>
         
-        <!-- Scroll Indicator -->
         <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
             <svg class="w-6 h-6 text-white opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
@@ -344,13 +341,11 @@
 
     <!-- About Us Section -->
     <section id="about" class="relative py-20 md:py-32 bg-night-dark overflow-hidden">
-        <!-- Background Elements -->
         <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-astro-purple to-transparent opacity-50"></div>
         <div class="absolute top-20 right-10 w-64 h-64 bg-astro-purple rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-float"></div>
         <div class="absolute bottom-20 left-10 w-64 h-64 bg-astro-orange rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-float" style="animation-delay: 3s;"></div>
         
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Section Header -->
             <div class="text-center mb-16">
                 <div class="inline-flex items-center space-x-2 px-4 py-2 glass-effect rounded-full mb-4">
                     <span class="text-astro-orange">✨</span>
@@ -364,13 +359,10 @@
                 </p>
             </div>
 
-            <!-- Main Content Grid -->
             <div class="grid md:grid-cols-2 gap-12 items-center mb-20">
-                <!-- Left Side - Image/Illustration -->
                 <div class="relative">
                     <div class="glass-effect rounded-3xl p-8 hover:scale-105 transition-transform duration-500">
                         <div class="aspect-square bg-gradient-to-br from-astro-purple to-astro-orange rounded-2xl flex items-center justify-center relative overflow-hidden">
-                            <!-- Code Animation Effect -->
                             <div class="absolute inset-0 opacity-20">
                                 <div class="absolute top-4 left-4 text-white font-mono text-xs">
                                     <div class="mb-2">&lt;html&gt;</div>
@@ -381,7 +373,6 @@
                                     <div>&lt;/html&gt;</div>
                                 </div>
                             </div>
-                            <!-- Center Icon -->
                             <div class="relative z-10 text-center">
                                 <div class="w-32 h-32 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-4 mx-auto backdrop-blur-sm">
                                     <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -393,7 +384,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Floating Badge -->
                     <div class="absolute -bottom-6 -right-6 glass-effect rounded-2xl p-4 shadow-xl">
                         <div class="flex items-center space-x-3">
                             <div class="w-12 h-12 bg-gradient-to-br from-astro-yellow to-astro-orange rounded-full flex items-center justify-center">
@@ -409,7 +399,6 @@
                     </div>
                 </div>
 
-                <!-- Right Side - Description -->
                 <div class="space-y-6">
                     <div class="glass-effect rounded-2xl p-6 hover:border-astro-orange border-2 border-transparent transition-all duration-300 group">
                         <div class="flex items-start space-x-4">
@@ -455,7 +444,6 @@
                 </div>
             </div>
 
-            <!-- Features Grid -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
                 <div class="glass-effect rounded-2xl p-6 text-center hover:scale-105 transition-transform duration-300">
                     <div class="text-4xl mb-3">🎨</div>
@@ -479,13 +467,11 @@
                 </div>
             </div>
 
-            <!-- Perfect For Section -->
             <div class="mt-20 glass-effect rounded-3xl p-8 md:p-12">
                 <h3 class="text-3xl font-bold text-white text-center mb-8">
                     ✨ <span class="gradient-text">Perfect For</span>
                 </h3>
                 <div class="grid md:grid-cols-3 gap-8">
-                    <!-- Business Owners -->
                     <div class="text-center">
                         <div class="w-16 h-16 bg-gradient-to-br from-astro-orange to-astro-yellow rounded-2xl flex items-center justify-center mx-auto mb-4">
                             <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -495,7 +481,6 @@
                         <h4 class="text-xl font-bold text-white mb-2">Business Owners</h4>
                         <p class="text-gray-400">Looking to establish a modern online presence and attract more customers</p>
                     </div>
-                    <!-- Students -->
                     <div class="text-center">
                         <div class="w-16 h-16 bg-gradient-to-br from-astro-purple to-astro-purple-dark rounded-2xl flex items-center justify-center mx-auto mb-4">
                             <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -505,7 +490,6 @@
                         <h4 class="text-xl font-bold text-white mb-2">Students</h4>
                         <p class="text-gray-400">Need a website for projects, portfolios, or academic assignments</p>
                     </div>
-                    <!-- Anyone (Fixed Placement) -->
                     <div class="text-center">
                         <div class="w-16 h-16 bg-gradient-to-br from-astro-yellow to-astro-orange rounded-2xl flex items-center justify-center mx-auto mb-4">
                             <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -522,12 +506,10 @@
 
     <!-- Portfolio Section -->
     <section id="portfolio" class="relative py-20 md:py-32 bg-night-darker overflow-hidden">
-        <!-- Background Elements -->
         <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-astro-orange to-transparent opacity-50"></div>
         <div class="absolute top-40 left-20 w-72 h-72 bg-astro-yellow rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-float"></div>
         
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
-            <!-- Section Header -->
             <div class="text-center">
                 <h2 class="text-4xl md:text-5xl font-black text-white mb-4">
                     Our <span class="gradient-text">Portfolio</span>
@@ -538,17 +520,12 @@
             </div>
         </div>
 
-        <!-- Infinite Scroll Container -->
         <div class="relative">
-            <!-- Gradient Overlays -->
             <div class="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-night-darker to-transparent z-10 pointer-events-none"></div>
             <div class="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-night-darker to-transparent z-10 pointer-events-none"></div>
             
-            <!-- Scrolling Track (Parent Wrapper yang ditambahkan class scroll-track) -->
             <div class="flex overflow-hidden scroll-track">
-                <!-- Group 1 -->
                 <div class="flex portfolio-scroll">
-                    <!-- Portfolio Item 1 -->
                     <div class="flex-shrink-0 w-80 mx-4">
                         <div class="glass-effect rounded-2xl overflow-hidden hover:scale-105 transition-transform duration-300">
                             <div class="aspect-video bg-gradient-to-br from-purple-500 to-pink-500 relative overflow-hidden">
@@ -572,7 +549,6 @@
                         </div>
                     </div>
 
-                    <!-- Portfolio Item 2 -->
                     <div class="flex-shrink-0 w-80 mx-4">
                         <div class="glass-effect rounded-2xl overflow-hidden hover:scale-105 transition-transform duration-300">
                             <div class="aspect-video bg-gradient-to-br from-blue-500 to-cyan-500 relative overflow-hidden">
@@ -596,7 +572,6 @@
                         </div>
                     </div>
 
-                    <!-- Portfolio Item 3 -->
                     <div class="flex-shrink-0 w-80 mx-4">
                         <div class="glass-effect rounded-2xl overflow-hidden hover:scale-105 transition-transform duration-300">
                             <div class="aspect-video bg-gradient-to-br from-green-500 to-emerald-500 relative overflow-hidden">
@@ -620,7 +595,6 @@
                         </div>
                     </div>
 
-                    <!-- Portfolio Item 4 -->
                     <div class="flex-shrink-0 w-80 mx-4">
                         <div class="glass-effect rounded-2xl overflow-hidden hover:scale-105 transition-transform duration-300">
                             <div class="aspect-video bg-gradient-to-br from-orange-500 to-red-500 relative overflow-hidden">
@@ -644,7 +618,6 @@
                         </div>
                     </div>
 
-                    <!-- Portfolio Item 5 -->
                     <div class="flex-shrink-0 w-80 mx-4">
                         <div class="glass-effect rounded-2xl overflow-hidden hover:scale-105 transition-transform duration-300">
                             <div class="aspect-video bg-gradient-to-br from-yellow-500 to-orange-500 relative overflow-hidden">
@@ -668,7 +641,6 @@
                         </div>
                     </div>
 
-                    <!-- Portfolio Item 6 -->
                     <div class="flex-shrink-0 w-80 mx-4">
                         <div class="glass-effect rounded-2xl overflow-hidden hover:scale-105 transition-transform duration-300">
                             <div class="aspect-video bg-gradient-to-br from-indigo-500 to-purple-500 relative overflow-hidden">
@@ -693,7 +665,6 @@
                     </div>
                 </div>
 
-                <!-- Duplicate for seamless loop (Group 2) -->
                 <div class="flex portfolio-scroll" aria-hidden="true">
                     <div class="flex-shrink-0 w-80 mx-4">
                         <div class="glass-effect rounded-2xl overflow-hidden hover:scale-105 transition-transform duration-300">
@@ -833,21 +804,37 @@
     </section>
 
     <script>
-        // Mobile Menu Toggle with Hamburger Animation
+        // Enhanced Mobile Menu Toggle with Slide Animation
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
+        const body = document.body;
         
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-            mobileMenuButton.classList.toggle('active');
-        });
+        // Function to toggle menu
+        function toggleMenu() {
+            const isClosed = mobileMenu.classList.contains('translate-x-full');
+            
+            if (isClosed) {
+                // Open Menu
+                mobileMenu.classList.remove('translate-x-full');
+                mobileMenuButton.classList.add('active');
+                body.style.overflow = 'hidden'; // Prevent scrolling when menu is open
+            } else {
+                // Close Menu
+                mobileMenu.classList.add('translate-x-full');
+                mobileMenuButton.classList.remove('active');
+                body.style.overflow = ''; // Enable scrolling
+            }
+        }
+
+        mobileMenuButton.addEventListener('click', toggleMenu);
         
         // Close menu when clicking on a link
-        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+        const mobileMenuLinks = document.querySelectorAll('.mobile-link');
         mobileMenuLinks.forEach(link => {
             link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
+                mobileMenu.classList.add('translate-x-full');
                 mobileMenuButton.classList.remove('active');
+                body.style.overflow = '';
             });
         });
         
@@ -880,11 +867,13 @@
         window.addEventListener('scroll', () => {
             const nav = document.querySelector('nav');
             if (window.scrollY > 50) {
-                nav.classList.add('bg-night-darker', 'bg-opacity-98', 'shadow-lg');
-                nav.classList.add('shadow-astro-purple');
+                // Increase darkness on scroll
+                nav.style.background = 'rgba(5, 5, 8, 0.95)';
+                nav.classList.add('shadow-lg', 'shadow-astro-purple/20');
             } else {
-                nav.classList.remove('bg-night-darker', 'bg-opacity-98', 'shadow-lg');
-                nav.classList.remove('shadow-astro-purple');
+                // Revert to initial slightly transparent
+                nav.style.background = 'rgba(5, 5, 10, 0.9)';
+                nav.classList.remove('shadow-lg', 'shadow-astro-purple/20');
             }
         });
     </script>
